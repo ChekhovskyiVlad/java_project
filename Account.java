@@ -40,7 +40,7 @@ abstract class Account {
         return idMember;
     }
 
-    void setIdMember() {
+    void setIdMember(String idMember) {
         this.idMember = idMember;
     }
 }

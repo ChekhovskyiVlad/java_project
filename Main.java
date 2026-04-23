@@ -24,12 +24,12 @@ public class Main {
             reg.printEmail(in);
 
             if (reg.proveEmail()) {
-                System.out.println("Email is valid");
+                reg.printPassword();
+                reg.generateMemberId();
+                reg.saveUser();
             } else {
                 System.out.println("Email is invalid");
             }
-
-            reg.printPassword();
         } else if (choice == 2) {
             System.out.println("Sign In function will be here");
         } else {

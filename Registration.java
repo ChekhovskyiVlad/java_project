@@ -4,6 +4,7 @@ import java.io.Console;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.UUID;
 
 public class Registration extends Account {
 
@@ -11,22 +12,12 @@ public class Registration extends Account {
         System.out.print("Enter your email: ");
         String email = in.nextLine();
         setEmail(email);
-
-        try (FileOutputStream fos = new FileOutputStream("users.bin")) {
-            byte[] buffer = email.getBytes();
-
-            fos.write(buffer, 0, buffer.length);
-            System.out.println("The file has been written");
-        } catch (IOException ex) {
-            System.out.println(ex.getMessage());
-        }
     }
 
     boolean proveEmail() {
-        return getEmail() != null && getEmail().contains("@gmail.com");
+        return getEmail() != null && getEmail().endsWith("@gmail.com");
     }
 
-    /* треба було використати нативну бібліотеку, по джава не дає доступ до символів в реальному часі */
     void printPassword() {
         Console console = System.console();
 
@@ -38,5 +29,17 @@ public class Registration extends Account {
         }
     }
 
-    // запис в файл
+    void generateMemberId() {
+        setIdMember(UUID.randomUUID().toString()); // конвертируем в строку так как возвращает без нее как UUID
+    }
+
+    void saveUser() {
+        try (FileOutputStream fos = new FileOutputStream("users.bin", true)) {
+            String data = getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
+            fos.write(data.getBytes());
+        } catch (IOException ex) {
+            System.out.println(ex.getMessage());
+        }
+    }
+
 }
