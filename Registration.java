@@ -6,7 +6,20 @@ import java.io.IOException;
 import java.util.Scanner;
 import java.util.UUID;
 
+// сделать проверку имейла на существования уже юзера
 public class Registration extends Account {
+
+    void printName(Scanner in) {
+        System.out.print("Enter your name: ");
+        String name = in.nextLine();
+        setName(name);
+    }
+
+    void printLastname(Scanner in) {
+        System.out.print("Enter your last name: ");
+        String lastName = in.nextLine();
+        setLastName(lastName);
+    }
 
     void printEmail(Scanner in) {
         System.out.print("Enter your email: ");
@@ -34,8 +47,8 @@ public class Registration extends Account {
     }
 
     void saveUser() {
-        try (FileOutputStream fos = new FileOutputStream("users.bin", true)) {
-            String data = getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
+        try (FileOutputStream fos = new FileOutputStream("users.txt", true)) {
+            String data = getName() + ":" + getLastName() + ":" + getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
             fos.write(data.getBytes());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

@@ -6,7 +6,4 @@ public class Student extends Account {
     private short grades[];
     public String enrolledCourses[];
 
-    public Student(String name, String lastName, String gmail, String passwordHash) {
-    }
-
 }

@@ -1,11 +1,19 @@
 package individual1;
 
-public class Teacher extends Person {
+/// все дальнейшие значение будут просто дописываться уже к существующему аккаунта, к примеру какие курсы, какие оценки
+// может тогда имеет смысл 
+
+/*
+когда юзер заходит в свой аккаунт, просто подтягиваются его оценки сразу с бинарника, вот и все
+
+то есть после того как юзер залогинился ему на панель отображается что за оценки у него на какие курсы он записан
+
+лучше всего полностью строку выность
+*/
+
+
+public class Teacher extends Account {
 
     private String Courses[];
-
-    public Teacher(String name, String lastName, String gmail, String passwordHash) {
-        super(name, lastName, gmail, passwordHash);
-    }
 
 }

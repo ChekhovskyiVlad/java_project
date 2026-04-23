@@ -20,12 +20,20 @@ abstract class Account {
 
     }
 
-    String getPassword() {
-        return passwordHash;
+    String getName() {
+        return name;
     }
 
-    void setPassword(String passwordHash) {
-        this.passwordHash = passwordHash;
+    void setName(String name) {
+        this.name = name;
+    }
+
+    String getLastName() {
+        return lastName;
+    }
+
+    void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     String getEmail() {
@@ -34,6 +42,14 @@ abstract class Account {
 
     void setEmail(String email) {
         this.email = email;
+    }
+
+    String getPassword() {
+        return passwordHash;
+    }
+
+    void setPassword(String passwordHash) {
+        this.passwordHash = passwordHash;
     }
 
     String getIdMember() {
