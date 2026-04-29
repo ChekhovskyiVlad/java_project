@@ -1,7 +1,5 @@
 package individual1;
 
-import java.util.Scanner;
-
 public class Student extends Account {
 
     private String[] grades = new String[0];
@@ -23,6 +21,7 @@ public class Student extends Account {
         this.enrolledCourses = enrolledCourses;
     }
 
+<<<<<<< HEAD
     void printInfoStudent() {
         Scanner in = new Scanner(System.in);
 
@@ -125,4 +124,6 @@ public class Student extends Account {
         showCourses();
         showGrades();
     }
+=======
+>>>>>>> parent of 0f1a382 (login && registration)
 }

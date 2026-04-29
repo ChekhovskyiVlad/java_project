@@ -40,6 +40,7 @@ public class Login extends Account {
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
 
+<<<<<<< HEAD
                 String[] parts = line.split(":", -1);
 
                 if (parts.length >= 7) {
@@ -68,6 +69,13 @@ public class Login extends Account {
                             enrolledCourses = parts[6].split(",");
                         }
 
+=======
+                if (parts.length >= 4) {
+                    String emailFound = parts[2];
+                    String passwordFound = parts[3];
+
+                    if (emailFound.equals(email) && passwordFound.equals(password)) {
+>>>>>>> parent of 0f1a382 (login && registration)
                         return true;
                     }
                 }
@@ -78,12 +86,5 @@ public class Login extends Account {
         }
 
         return false;
-    }
-
-    void printAllInfo() {
-        System.out.println("Name: " + getName());
-        System.out.println("Last name: " + getLastName());
-        System.out.println("Email: " + getEmail());
-        System.out.println("ID: " + getIdMember());
     }
 }

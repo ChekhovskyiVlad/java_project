@@ -1,12 +1,27 @@
 package individual1;
 
+<<<<<<< HEAD
 import java.io.*;
 import java.util.*;
+=======
+/// все дальнейшие значение будут просто дописываться уже к существующему аккаунта, к примеру какие курсы, какие оценки
+// может тогда имеет смысл 
+
+/*
+когда юзер заходит в свой аккаунт, просто подтягиваются его оценки сразу с бинарника, вот и все
+
+то есть после того как юзер залогинился ему на панель отображается что за оценки у него на какие курсы он записан
+
+лучше всего полностью строку выность
+*/
+
+>>>>>>> parent of 0f1a382 (login && registration)
 
 public class Teacher extends Account {
 
     private ArrayList<Course> courses = new ArrayList<>();
 
+<<<<<<< HEAD
     void printPanel() {
         Scanner in = new Scanner(System.in);
 
@@ -290,4 +305,6 @@ public class Teacher extends Account {
             System.out.println("Cannot write file: " + filename);
         }
     }
+=======
+>>>>>>> parent of 0f1a382 (login && registration)
 }

@@ -1,7 +1,6 @@
 package individual1;
 
 import java.io.Console;
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
@@ -62,27 +61,6 @@ public class Registration extends Account {
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
-    }
-
-    boolean proveEmailExist() {
-        try (Scanner fileScanner = new Scanner(new FileInputStream("users.txt"))) {
-            while (fileScanner.hasNextLine()) {
-                String line = fileScanner.nextLine();
-                String[] parts = line.split(":");
-
-                if (parts.length >= 3) {
-                    String emailFound = parts[2];
-
-                    if (emailFound.equals(getEmail())) {
-                        return true;
-                    }
-                }
-            }
-        } catch (IOException ex) {
-            System.out.println("File not found or cannot be read.");
-        }
-
-        return false;
     }
 
 }

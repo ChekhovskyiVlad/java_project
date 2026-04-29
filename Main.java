@@ -24,7 +24,16 @@ public class Main {
             reg.printLastname(in);
             reg.printEmail(in);
 
-            if (!reg.proveEmail()) {
+            if (reg.proveEmail()) {
+                reg.printPassword();
+                reg.generateMemberId();
+                reg.saveUser();
+
+                if (reg.proveEmailExist()) {
+                    System.out.print("User with the same email already exist");
+                    return;
+                }
+            } else {
                 System.out.println("Email is invalid");
                 return;
             }
