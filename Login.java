@@ -1,21 +1,9 @@
 package individual1;
 
-import java.io.FileInputStream;
-import java.io.IOException;
+import java.io.*;
 import java.util.Scanner;
 
 public class Login extends Account {
-
-    private String[] grades = new String[0];
-    private String[] enrolledCourses = new String[0];
-
-    public String[] getGrades() {
-        return grades;
-    }
-
-    public String[] getEnrolledCourses() {
-        return enrolledCourses;
-    }
 
     String printEmailLogin(Scanner in) {
         System.out.print("Enter your gmail: ");
@@ -25,13 +13,23 @@ public class Login extends Account {
     }
 
     String printPasswordLogin(Scanner in) {
-        System.out.print("Enter your password: ");
-        String password = in.nextLine();
+        Console console = System.console();
+        String password;
+
+        if (console != null) {
+            password = new String(console.readPassword("Enter your password: "));
+        } else {
+            System.out.print("Enter your password: ");
+            password = in.nextLine();
+        }
+
         setPassword(password);
         return password;
     }
 
-    boolean loginUser(Scanner in) {
+    boolean loginUser() {
+        Scanner in = new Scanner(System.in);
+
         String email = printEmailLogin(in);
         String password = printPasswordLogin(in);
 
@@ -39,17 +37,16 @@ public class Login extends Account {
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
+                String[] parts = line.split(":");
 
-<<<<<<< HEAD
-<<<<<<< HEAD
-                String[] parts = line.split(":", -1);
-
-                if (parts.length >= 7) {
+                if (parts.length >= 8) {
                     String nameFound = parts[0];
                     String lastNameFound = parts[1];
                     String emailFound = parts[2];
                     String passwordFound = parts[3];
                     String idFound = parts[4];
+                    String grades[] = parts[5].split(",");
+                    String enrolledCourses[] = parts[6].split(",");
 
                     if (emailFound.equals(email) && passwordFound.equals(password)) {
                         setName(nameFound);
@@ -58,41 +55,23 @@ public class Login extends Account {
                         setPassword(passwordFound);
                         setIdMember(idFound);
 
-                        if (parts[5].isEmpty()) {
-                            grades = new String[0];
-                        } else {
-                            grades = parts[5].split(",");
-                        }
-
-                        if (parts[6].isEmpty()) {
-                            enrolledCourses = new String[0];
-                        } else {
-                            enrolledCourses = parts[6].split(",");
-                        }
-
-=======
-                if (parts.length >= 4) {
-                    String emailFound = parts[2];
-                    String passwordFound = parts[3];
-
-                    if (emailFound.equals(email) && passwordFound.equals(password)) {
->>>>>>> parent of 0f1a382 (login && registration)
-=======
-                if (parts.length >= 4) {
-                    String emailFound = parts[2];
-                    String passwordFound = parts[3];
-
-                    if (emailFound.equals(email) && passwordFound.equals(password)) {
->>>>>>> parent of 0f1a382 (login && registration)
                         return true;
                     }
                 }
             }
 
         } catch (IOException ex) {
-            System.out.println("Cannot read users.txt");
+            System.out.println(ex.getMessage());
         }
 
         return false;
+    }
+
+    void printAllInfo() {
+        System.out.println("Name: " + getName());
+        System.out.println("Last name: " + getLastName());
+        System.out.println("Email: " + getEmail());
+        System.out.println("ID: " + getIdMember());
+
     }
 }

@@ -1,12 +1,12 @@
 package individual1;
 
 import java.io.Console;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.util.Scanner;
 import java.util.UUID;
 
-// сделать проверку имейла на существования уже юзера
 public class Registration extends Account {
 
     void printName(Scanner in) {
@@ -31,7 +31,7 @@ public class Registration extends Account {
         return getEmail() != null && getEmail().endsWith("@gmail.com");
     }
 
-    void printPassword(Scanner in) {
+    void printPassword() {
         Console console = System.console();
 
         if (console != null) {
@@ -43,24 +43,36 @@ public class Registration extends Account {
     }
 
     void generateMemberId() {
-        setIdMember(UUID.randomUUID().toString()); // конвертируем в строку так как возвращает без нее как UUID
+        setIdMember(UUID.randomUUID().toString());
     }
 
     void saveUser() {
         try (FileOutputStream fos = new FileOutputStream("users.txt", true)) {
-            // name:lastName:email:password:id:grades:courses
-            String data = getName() + ":"
-                    + getLastName() + ":"
-                    + getEmail() + ":"
-                    + getPassword() + ":"
-                    + getIdMember() + ":"
-                    + "" + ":"
-                    + "" + "\n";
-
+            String data = getName() + ":" + getLastName() + ":" + getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
             fos.write(data.getBytes());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
         }
     }
 
+    boolean proveEmailExist() {
+        try (Scanner fileScanner = new Scanner(new FileInputStream("users.txt"))) {
+            while (fileScanner.hasNextLine()) {
+                String line = fileScanner.nextLine();
+                String[] parts = line.split(":");
+
+                if (parts.length >= 3) {
+                    String emailFound = parts[2];
+
+                    if (emailFound.equals(getEmail())) {
+                        return true;
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("File not found or cannot be read.");
+        }
+
+        return false;
+    }
 }

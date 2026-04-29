@@ -2,10 +2,13 @@ vlad:chekh:v.chek1218@gmail.com:12345678:68103fd5-a336-4795-8d0d-6ac789844fb1
 vlad:chekh:v.chek1218@gmail.com:12345678:6dea5b1a-77db-43fa-8e82-e542a8ac1144
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 мдфв:chekh:rsrewqr@gmail.com:123123123:82a43e20-e62b-44ca-96ee-3630f0cd6dd0
 vlad:chkeh:sdgfdsfG@gmail.com:123123123:976d0b7f-3281-418d-933b-764a20b7bd4b
 vlad:chke:werqwRE@gmail.com:123123123:115ac3d1-4a5f-47a4-b59b-1efd8824a695
 vlad:chek:v.chek1234@gmail.com:123123123123:bb233e3d-5f08-4237-85ce-2492e0cfd6fc::
+=======
+>>>>>>> parent of 0f1a382 (login && registration)
 =======
 >>>>>>> parent of 0f1a382 (login && registration)
 =======
