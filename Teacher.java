@@ -1,9 +1,12 @@
 package individual1;
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 import java.io.*;
 import java.util.*;
 =======
+=======
+>>>>>>> parent of 0f1a382 (login && registration)
 /// все дальнейшие значение будут просто дописываться уже к существующему аккаунта, к примеру какие курсы, какие оценки
 // может тогда имеет смысл 
 
@@ -21,6 +24,7 @@ public class Teacher extends Account {
 
     private ArrayList<Course> courses = new ArrayList<>();
 
+<<<<<<< HEAD
 <<<<<<< HEAD
     void printPanel() {
         Scanner in = new Scanner(System.in);
@@ -305,6 +309,8 @@ public class Teacher extends Account {
             System.out.println("Cannot write file: " + filename);
         }
     }
+=======
+>>>>>>> parent of 0f1a382 (login && registration)
 =======
 >>>>>>> parent of 0f1a382 (login && registration)
 }

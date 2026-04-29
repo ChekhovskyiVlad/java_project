@@ -41,6 +41,7 @@ public class Login extends Account {
                 String line = fileScanner.nextLine();
 
 <<<<<<< HEAD
+<<<<<<< HEAD
                 String[] parts = line.split(":", -1);
 
                 if (parts.length >= 7) {
@@ -69,6 +70,13 @@ public class Login extends Account {
                             enrolledCourses = parts[6].split(",");
                         }
 
+=======
+                if (parts.length >= 4) {
+                    String emailFound = parts[2];
+                    String passwordFound = parts[3];
+
+                    if (emailFound.equals(email) && passwordFound.equals(password)) {
+>>>>>>> parent of 0f1a382 (login && registration)
 =======
                 if (parts.length >= 4) {
                     String emailFound = parts[2];

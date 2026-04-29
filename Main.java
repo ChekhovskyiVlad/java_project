@@ -28,11 +28,6 @@ public class Main {
                 reg.printPassword();
                 reg.generateMemberId();
                 reg.saveUser();
-
-                if (reg.proveEmailExist()) {
-                    System.out.print("User with the same email already exist");
-                    return;
-                }
             } else {
                 System.out.println("Email is invalid");
                 return;

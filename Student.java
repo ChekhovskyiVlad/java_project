@@ -5,6 +5,7 @@ public class Student extends Account {
     private String[] grades = new String[0];
     private String[] enrolledCourses = new String[0];
 
+<<<<<<< HEAD
     public String[] getGrades() {
         return grades;
     }
@@ -124,6 +125,8 @@ public class Student extends Account {
         showCourses();
         showGrades();
     }
+=======
+>>>>>>> parent of 0f1a382 (login && registration)
 =======
 >>>>>>> parent of 0f1a382 (login && registration)
 }
