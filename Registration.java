@@ -32,7 +32,7 @@ public class Registration extends Account {
         return getEmail() != null && getEmail().endsWith("@gmail.com");
     }
 
-    void printPassword() {
+    void printPassword(Scanner in) {
         Console console = System.console();
 
         if (console != null) {
@@ -49,7 +49,15 @@ public class Registration extends Account {
 
     void saveUser() {
         try (FileOutputStream fos = new FileOutputStream("users.txt", true)) {
-            String data = getName() + ":" + getLastName() + ":" + getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
+            // name:lastName:email:password:id:grades:courses
+            String data = getName() + ":"
+                    + getLastName() + ":"
+                    + getEmail() + ":"
+                    + getPassword() + ":"
+                    + getIdMember() + ":"
+                    + "" + ":"
+                    + "" + "\n";
+
             fos.write(data.getBytes());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

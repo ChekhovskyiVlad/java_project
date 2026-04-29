@@ -1,9 +1,21 @@
 package individual1;
 
-import java.io.*;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.util.Scanner;
 
 public class Login extends Account {
+
+    private String[] grades = new String[0];
+    private String[] enrolledCourses = new String[0];
+
+    public String[] getGrades() {
+        return grades;
+    }
+
+    public String[] getEnrolledCourses() {
+        return enrolledCourses;
+    }
 
     String printEmailLogin(Scanner in) {
         System.out.print("Enter your gmail: ");
@@ -13,23 +25,13 @@ public class Login extends Account {
     }
 
     String printPasswordLogin(Scanner in) {
-        Console console = System.console();
-        String password;
-
-        if (console != null) {
-            password = new String(console.readPassword("Enter your password: "));
-        } else {
-            System.out.print("Enter your password: ");
-            password = in.nextLine();
-        }
-
+        System.out.print("Enter your password: ");
+        String password = in.nextLine();
         setPassword(password);
         return password;
     }
 
-    boolean loginUser() {
-        Scanner in = new Scanner(System.in);
-
+    boolean loginUser(Scanner in) {
         String email = printEmailLogin(in);
         String password = printPasswordLogin(in);
 
@@ -37,19 +39,15 @@ public class Login extends Account {
 
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
-                String[] parts = line.split(":");
 
-                if (parts.length >= 5) {
+                String[] parts = line.split(":", -1);
+
+                if (parts.length >= 7) {
                     String nameFound = parts[0];
                     String lastNameFound = parts[1];
                     String emailFound = parts[2];
                     String passwordFound = parts[3];
                     String idFound = parts[4];
-                    /*
-                    изменить еще потом нужно будет добавлять оценки на каких курсах записан, какие таски есть
-                    проверка если нет оценок значит это преподаватель, поэтому выводим таким образом что он преодает
-                    в этих курсах, а не учиться
-                     */
 
                     if (emailFound.equals(email) && passwordFound.equals(password)) {
                         setName(nameFound);
@@ -58,13 +56,25 @@ public class Login extends Account {
                         setPassword(passwordFound);
                         setIdMember(idFound);
 
+                        if (parts[5].isEmpty()) {
+                            grades = new String[0];
+                        } else {
+                            grades = parts[5].split(",");
+                        }
+
+                        if (parts[6].isEmpty()) {
+                            enrolledCourses = new String[0];
+                        } else {
+                            enrolledCourses = parts[6].split(",");
+                        }
+
                         return true;
                     }
                 }
             }
 
         } catch (IOException ex) {
-            System.out.println(ex.getMessage());
+            System.out.println("Cannot read users.txt");
         }
 
         return false;
