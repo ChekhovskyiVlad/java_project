@@ -39,11 +39,25 @@ public class Login extends Account {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(":");
 
-                if (parts.length >= 4) {
+                if (parts.length >= 5) {
+                    String nameFound = parts[0];
+                    String lastNameFound = parts[1];
                     String emailFound = parts[2];
                     String passwordFound = parts[3];
+                    String idFound = parts[4];
+                    /*
+                    изменить еще потом нужно будет добавлять оценки на каких курсах записан, какие таски есть
+                    проверка если нет оценок значит это преподаватель, поэтому выводим таким образом что он преодает
+                    в этих курсах, а не учиться
+                     */
 
                     if (emailFound.equals(email) && passwordFound.equals(password)) {
+                        setName(nameFound);
+                        setLastName(lastNameFound);
+                        setEmail(emailFound);
+                        setPassword(passwordFound);
+                        setIdMember(idFound);
+
                         return true;
                     }
                 }
@@ -54,5 +68,12 @@ public class Login extends Account {
         }
 
         return false;
+    }
+
+    void printAllInfo() {
+        System.out.println("Name: " + getName());
+        System.out.println("Last name: " + getLastName());
+        System.out.println("Email: " + getEmail());
+        System.out.println("ID: " + getIdMember());
     }
 }
