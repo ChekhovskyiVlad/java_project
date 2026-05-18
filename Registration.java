@@ -9,6 +9,22 @@ import java.util.UUID;
 
 public class Registration extends Account {
 
+    void printStatus(Scanner in) {
+        System.out.print("Are you a teacher?(Print  `yes` or `no`): ");
+        String status = in.nextLine();
+
+        switch (status) {
+            case "yes":
+                setStatus("TEACHER");
+                break;
+            case "no":
+                setStatus("STUDENT");
+            default:
+                System.out.print("Invalid answer");
+                throw new AssertionError();
+        }
+    }
+
     void printName(Scanner in) {
         System.out.print("Enter your name: ");
         String name = in.nextLine();
@@ -48,7 +64,7 @@ public class Registration extends Account {
 
     void saveUser() {
         try (FileOutputStream fos = new FileOutputStream("users.txt", true)) {
-            String data = getName() + ":" + getLastName() + ":" + getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
+            String data = getStatus() + ":" + getName() + ":" + getLastName() + ":" + getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
             fos.write(data.getBytes());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());

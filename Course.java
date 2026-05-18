@@ -4,7 +4,7 @@ public class Course {
 
     private String title;
     private String[] studentIds;
-    private String[] teacherIds;
+    private String teacherId;
     private String[] tasks;
 
     public String getTitle() {
@@ -23,12 +23,12 @@ public class Course {
         this.studentIds = studentIds;
     }
 
-    public String[] getTeacherIds() {
-        return teacherIds;
+    public String getTeacherId() {
+        return teacherId;
     }
 
-    public void setTeacherIds(String[] teacherIds) {
-        this.teacherIds = teacherIds;
+    public void setTeacherIds(String teacherId) {
+        this.teacherId = teacherId;
     }
 
     public String[] getTasks() {
@@ -38,4 +38,5 @@ public class Course {
     public void setTasks(String[] tasks) {
         this.tasks = tasks;
     }
+
 }

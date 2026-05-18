@@ -23,7 +23,11 @@ public class Main {
 
         Registration reg = new Registration();
         Login log = new Login();
+        Student student = new Student();
+        Teacher teacher = new Teacher();
+
         if (choice == 1) {
+            reg.printStatus(in);
             reg.printName(in);
             reg.printLastname(in);
             reg.printEmail(in);
@@ -49,6 +53,13 @@ public class Main {
                 System.out.println("User wasn't signed in");
             }
             log.printAllInfo();
+            System.out.print("-------------------------- \n");
+
+            if ("STUDENT".equals(log.getStatus())) {
+                student.printInfoStudent();
+            } else {
+                teacher.printInfoTeacher();
+            }
         } else {
             System.out.println("Invalid choice");
         }

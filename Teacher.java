@@ -10,7 +10,7 @@ public class Teacher extends Account {
 
     private ArrayList<Course> courses = new ArrayList<>();
 
-    void printPanel() {
+    void printInfoTeacher() {
         Scanner in = new Scanner(System.in);
         int choice;
 
@@ -67,9 +67,6 @@ public class Teacher extends Account {
 
         course.setTitle(title);
 
-        String[] teacherIds;
-        course.setTeacherIds(teacherIds);
-
         course.setStudentIds(new String[0]);
         course.setTasks(new String[0]);
 
@@ -120,7 +117,7 @@ public class Teacher extends Account {
     }
 
     void createTask(Scanner in) {
-        // TODO
+
     }
 
     void enrollStudentToCourse(Scanner in) {

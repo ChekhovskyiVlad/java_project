@@ -39,16 +39,18 @@ public class Login extends Account {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(":");
 
-                if (parts.length >= 8) {
-                    String nameFound = parts[0];
-                    String lastNameFound = parts[1];
-                    String emailFound = parts[2];
-                    String passwordFound = parts[3];
-                    String idFound = parts[4];
-                    String grades[] = parts[5].split(",");
-                    String enrolledCourses[] = parts[6].split(",");
+                if (parts.length >= 6) {
+                    String status = parts[0];
+                    String nameFound = parts[1];
+                    String lastNameFound = parts[2];
+                    String emailFound = parts[3];
+                    String passwordFound = parts[4];
+                    String idFound = parts[5];
+                    //  String grades[] = parts[5].split(",");
+                    //String enrolledCourses[] = parts[6].split(",");
 
                     if (emailFound.equals(email) && passwordFound.equals(password)) {
+                        setStatus(status);
                         setName(nameFound);
                         setLastName(lastNameFound);
                         setEmail(emailFound);

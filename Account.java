@@ -2,6 +2,7 @@ package individual1;
 
 abstract class Account {
 
+    private String status;
     private String name;
     private String lastName;
     private String idMember;
@@ -9,15 +10,25 @@ abstract class Account {
     private String passwordHash;
 
     void changePassword() {
+        System.out.print("Enter your previous password: ");
 
     }
 
     void changeName() {
-
+        System.out.print("Enter your new name: ");
     }
 
     void changeLastName() {
+        System.out.print("Enter your new lastname: ");
 
+    }
+
+    String getStatus() {
+        return status;
+    }
+
+    void setStatus(String status) {
+        this.status = status;
     }
 
     String getName() {
