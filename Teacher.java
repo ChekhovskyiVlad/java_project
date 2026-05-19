@@ -219,12 +219,21 @@ public class Teacher extends Account {
             return;
         }
 
+        Task task = new Task();
         System.out.print("Enter task title: ");
         String taskTitle = in.nextLine();
+        task.setTitle(taskTitle);
 
-        //   Task task = new Task();
-        // task.setTitle(taskTitle);
-        // System.out.println("Task created: " + taskTitle);
+        System.out.print("Enter the description: ");
+        String input = in.nextLine();
+        String[] description = input.split(",");
+        task.setDescription(description);
+
+        System.out.print("Enter the exercise: ");
+        String[] exercise = input.split(",");
+        task.setExercise(exercise);
+
+        System.out.println("Task created: " + taskTitle);
     }
 
     void showCourses() {
