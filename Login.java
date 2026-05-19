@@ -40,7 +40,7 @@ public class Login extends Account {
                 String[] parts = line.split(":");
 
                 if (parts.length >= 6) {
-                    String status = parts[0];
+                    String statusFound = parts[0];
                     String nameFound = parts[1];
                     String lastNameFound = parts[2];
                     String emailFound = parts[3];
@@ -50,7 +50,7 @@ public class Login extends Account {
                     //String enrolledCourses[] = parts[6].split(",");
 
                     if (emailFound.equals(email) && passwordFound.equals(password)) {
-                        setStatus(status);
+                        setStatus(statusFound);
                         setName(nameFound);
                         setLastName(lastNameFound);
                         setEmail(emailFound);

@@ -10,7 +10,7 @@ import java.util.UUID;
 public class Registration extends Account {
 
     void printStatus(Scanner in) {
-        System.out.print("Are you a teacher?(Print  `yes` or `no`): ");
+        System.out.print("Are you a teacher? (Print `yes` or `no`): ");
         String status = in.nextLine();
 
         switch (status) {
@@ -19,8 +19,9 @@ public class Registration extends Account {
                 break;
             case "no":
                 setStatus("STUDENT");
+                break;
             default:
-                System.out.print("Invalid answer");
+                System.out.println("Invalid answer");
                 throw new AssertionError();
         }
     }
@@ -47,15 +48,18 @@ public class Registration extends Account {
         return getEmail() != null && getEmail().endsWith("@gmail.com");
     }
 
-    void printPassword() {
+    void printPassword(Scanner in) {
         Console console = System.console();
+        String password;
 
         if (console != null) {
-            char[] password = console.readPassword("Enter your password: ");
-            setPassword(new String(password));
+            password = new String(console.readPassword("Enter your password: "));
         } else {
-            System.out.println("Console is not available.");
+            System.out.print("Enter your password: ");
+            password = in.nextLine();
         }
+
+        setPassword(password);
     }
 
     void generateMemberId() {
@@ -64,7 +68,13 @@ public class Registration extends Account {
 
     void saveUser() {
         try (FileOutputStream fos = new FileOutputStream("users.txt", true)) {
-            String data = getStatus() + ":" + getName() + ":" + getLastName() + ":" + getEmail() + ":" + getPassword() + ":" + getIdMember() + "\n";
+            String data = getStatus() + ":"
+                    + getName() + ":"
+                    + getLastName() + ":"
+                    + getEmail() + ":"
+                    + getPassword() + ":"
+                    + getIdMember() + "\n";
+
             fos.write(data.getBytes());
         } catch (IOException ex) {
             System.out.println(ex.getMessage());
@@ -77,8 +87,8 @@ public class Registration extends Account {
                 String line = fileScanner.nextLine();
                 String[] parts = line.split(":");
 
-                if (parts.length >= 3) {
-                    String emailFound = parts[2];
+                if (parts.length >= 4) {
+                    String emailFound = parts[3];
 
                     if (emailFound.equals(getEmail())) {
                         return true;
@@ -86,7 +96,7 @@ public class Registration extends Account {
                 }
             }
         } catch (IOException ex) {
-            System.out.println("File not found or cannot be read.");
+            return false;
         }
 
         return false;

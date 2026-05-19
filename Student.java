@@ -7,6 +7,15 @@ public class Student extends Account {
     private short grades[];
     public String enrolledCourses[];
 
+    public Student(Account currentUser) {
+        setStatus(currentUser.getStatus());
+        setName(currentUser.getName());
+        setLastName(currentUser.getLastName());
+        setEmail(currentUser.getEmail());
+        setPassword(currentUser.getPassword());
+        setIdMember(currentUser.getIdMember());
+    }
+
     void printInfoStudent() {
 
         short choice;

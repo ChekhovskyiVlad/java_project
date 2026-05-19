@@ -22,22 +22,20 @@ public class Main {
         in.nextLine();
 
         Registration reg = new Registration();
-        Login log = new Login();
-        Student student = new Student();
-        Teacher teacher = new Teacher();
+        Login currentUser = new Login();
 
         if (choice == 1) {
             reg.printStatus(in);
             reg.printName(in);
             reg.printLastname(in);
             reg.printEmail(in);
+            reg.printPassword(in);
 
             if (reg.proveEmail()) {
                 if (reg.proveEmailExist()) {
                     System.out.print("User with the same email already exist");
                     return;
                 }
-                reg.printPassword();
                 reg.generateMemberId();
                 reg.saveUser();
 
@@ -45,21 +43,31 @@ public class Main {
                 System.out.println("Email is invalid");
             }
         } else if (choice == 2) {
-            boolean success = log.loginUser();
+            boolean success = currentUser.loginUser();
 
             if (success) {
-                System.out.println("User was signed in");
-            } else {
-                System.out.println("User wasn't signed in");
-            }
-            log.printAllInfo();
-            System.out.print("-------------------------- \n");
 
-            if ("STUDENT".equals(log.getStatus())) {
-                student.printInfoStudent();
+                System.out.println("Signed in");
+
+                currentUser.printAllInfo();
+
+                if (currentUser.getStatus().equals("TEACHER")) {
+
+                    Teacher teacher = new Teacher(currentUser);
+
+                    teacher.printInfoTeacher();
+
+                } else if (currentUser.getStatus().equals("STUDENT")) {
+
+                    Student student = new Student(currentUser);
+
+                    student.printInfoStudent();
+                }
+
             } else {
-                teacher.printInfoTeacher();
+                System.out.println("Invalid email or password");
             }
+
         } else {
             System.out.println("Invalid choice");
         }
