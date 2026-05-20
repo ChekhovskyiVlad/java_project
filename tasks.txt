@@ -1,1 +1,3 @@
 python:string:you need to sum the array:1 + 2 + 3 + 4
+java:strings:you need to print the whole sting, use the loop for:["biba boba"]
+javaScript:write a function to sum two variables:write a function to sum two variables:a = 121, b = 123

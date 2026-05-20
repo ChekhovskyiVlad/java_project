@@ -29,8 +29,9 @@ public class Teacher extends Account {
                     2. Assign grade to a student
                     3. Add a task to the course
                     4. Enroll a student to the course
-                    5. Show my courses
-                    6. Exit
+                    5. Check answers of students
+                    6. Show my courses
+                    7. Exit
                     """);
 
             System.out.print("Choose option: ");
@@ -47,9 +48,11 @@ public class Teacher extends Account {
                 case 4 ->
                     enrollStudentToExistingCourse(in);
                 case 5 ->
+                    checkSubmissions(in);
+                case 6 ->
                     showCourses();
-                case 6 -> {
-                    System.out.println("Exit...");
+                case 7 -> {
+                    System.out.print("Exit....");
                     return;
                 }
                 default ->
@@ -219,6 +222,101 @@ public class Teacher extends Account {
         System.out.println("Grade " + grade + " assigned to student " + studentId);
     }
 
+    void checkSubmissions(Scanner in) {
+
+        ArrayList<String> updatedLines = new ArrayList<>();
+
+        try (Scanner fileScanner
+                = new Scanner(new FileInputStream("submission.txt"))) {
+
+            while (fileScanner.hasNextLine()) {
+
+                String line = fileScanner.nextLine();
+
+                String[] parts = line.split(":");
+
+                /*
+            0 courseTitle
+            1 taskTitle
+            2 studentId
+            3 answer
+            4 status
+            5 grade
+            6 feedback
+                 */
+                if (parts.length >= 7) {
+
+                    String courseTitle = parts[0];
+                    String taskTitle = parts[1];
+                    String studentId = parts[2];
+                    String answer = parts[3];
+                    String status = parts[4];
+                    String grade = parts[5];
+                    String feedback = parts[6];
+
+                    System.out.println();
+                    System.out.println("Course: " + courseTitle);
+                    System.out.println("Task: " + taskTitle);
+                    System.out.println("Student ID: " + studentId);
+                    System.out.println("Answer: " + answer);
+                    System.out.println("Status: " + status);
+                    System.out.println("Grade: " + grade);
+                    System.out.println("Feedback: " + feedback);
+
+                    // teacher checks task
+                    System.out.print("Do you want to grade this submission? yes/no: ");
+                    String choice = in.nextLine();
+
+                    if (choice.equalsIgnoreCase("yes")) {
+
+                        System.out.print("Enter grade: ");
+                        String newGrade = in.nextLine();
+
+                        System.out.print("Enter feedback: ");
+                        String newFeedback = in.nextLine();
+
+                        // update values
+                        parts[4] = "CHECKED";
+                        parts[5] = newGrade;
+                        parts[6] = newFeedback;
+
+                        System.out.println("Submission checked.");
+                    }
+
+                    // create updated line
+                    String updatedLine
+                            = parts[0] + ":"
+                            + parts[1] + ":"
+                            + parts[2] + ":"
+                            + parts[3] + ":"
+                            + parts[4] + ":"
+                            + parts[5] + ":"
+                            + parts[6];
+
+                    updatedLines.add(updatedLine);
+                }
+            }
+
+        } catch (IOException ex) {
+            System.out.println("Error reading submissions: "
+                    + ex.getMessage());
+            return;
+        }
+
+        // rewrite submission.txt
+        try (FileOutputStream fos
+                = new FileOutputStream("submission.txt", false)) {
+
+            for (String line : updatedLines) {
+                fos.write((line + "\n").getBytes());
+            }
+
+        } catch (IOException ex) {
+            System.out.println("Error writing submissions: "
+                    + ex.getMessage());
+        }
+    }
+
     void showCourses() {
         if (courses.isEmpty()) {
             System.out.println("You have no courses.");
@@ -231,4 +329,7 @@ public class Teacher extends Account {
             System.out.println("Students: " + course.getStudentIds());
         }
     }
+
+
+/// нужно тогда еще написать функцию проверки таска
 }
