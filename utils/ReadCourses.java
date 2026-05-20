@@ -1,9 +1,6 @@
 package individual1.utils;
 
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
-
-import individual1.Teacher;
 import java.io.IOException;
 
 /*
@@ -20,14 +17,12 @@ courses.txt он подтягивает ему таски
 
 тогда по идее надо создать еще одну поддб с тасками для каждого курса
 
+когда студент делает таск, должен отправлять этот таск для профа и у него должна быть функция просмотреть таски и дать grade
+
+наверное прийдется добавить еще один класс с ответом на этот таск 
+
+когда проф дал фидбек должен создаваться submission который потом добавляет студент оценки
+
+
+
  */
-public class studentToCourse {
-
-    void studentToCourse() {
-        try (FileOutputStream fos = new FileOutputStream("courses.txt", true)) {
-
-        } catch (IOException ex) {
-            ex.getMessage();
-        }
-    }
-}

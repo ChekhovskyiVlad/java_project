@@ -6,7 +6,7 @@ import java.util.Scanner;
 
 public class Teacher extends Account {
 
-    private ArrayList<Course> courses = new ArrayList<>();
+    private ArrayList<Course> courses;
 
     public Teacher(Account currentUser) {
         setStatus(currentUser.getStatus());
@@ -15,6 +15,8 @@ public class Teacher extends Account {
         setEmail(currentUser.getEmail());
         setPassword(currentUser.getPassword());
         setIdMember(currentUser.getIdMember());
+
+        courses = Course.loadAllCourses();
     }
 
     void printInfoTeacher() {
@@ -65,34 +67,10 @@ public class Teacher extends Account {
         course.setTitle(title);
         course.setTeacherId(getIdMember());
 
-        System.out.print("Do you want to add a student now? yes/no: ");
-        String answer = in.nextLine();
-
-        if (answer.equalsIgnoreCase("yes")) {
-            enrollStudentToCourse(in, course);
-        }
-
         courses.add(course);
-        saveCourse(course);
+        course.save();
 
         System.out.println("Course created successfully!");
-    }
-
-    void enrollStudentToCourse(Scanner in, Course course) {
-        System.out.print("Enter student ID: ");
-        String studentId = in.nextLine().trim();
-
-        if (studentId.isEmpty()) {
-            System.out.println("Student ID cannot be empty.");
-            return;
-        }
-
-        if (studentExists(studentId)) {
-            course.addStudentId(studentId);
-            System.out.println("Student enrolled successfully.");
-        } else {
-            System.out.println("Student with this ID was not found.");
-        }
     }
 
     void enrollStudentToExistingCourse(Scanner in) {
@@ -104,36 +82,76 @@ public class Teacher extends Account {
         System.out.print("Enter course title: ");
         String title = in.nextLine();
 
-        Course course = findCourseByTitle(title);
+        Course course = Course.findByTitle(courses, title);
 
         if (course == null) {
             System.out.println("Course not found.");
             return;
         }
 
-        enrollStudentToCourse(in, course);
-        rewriteCoursesFile();
+        System.out.print("Enter student ID: ");
+        String studentId = in.nextLine().trim();
+
+        if (studentId.isEmpty()) {
+            System.out.println("Student ID cannot be empty.");
+            return;
+        }
+
+        if (!studentExists(studentId)) {
+            System.out.println("Student with this ID was not found.");
+            return;
+        }
+
+        course.addStudentId(studentId);
+        Course.rewriteAllCourses(courses);
+
+        addCourseToStudent(studentId, course.getTitle());
+
+        System.out.println("Student enrolled successfully.");
+    }
+
+    void createTask(Scanner in) {
+        System.out.print("Enter course title: ");
+        String courseTitle = in.nextLine();
+
+        Course course = Course.findByTitle(courses, courseTitle);
+
+        if (course == null) {
+            System.out.println("Course not found.");
+            return;
+        }
+
+        Task task = new Task();
+
+        System.out.print("Enter task title: ");
+        task.setTitle(in.nextLine());
+
+        System.out.print("Enter description: ");
+        task.setDescription(in.nextLine().split(","));
+
+        System.out.print("Enter exercise: ");
+        task.setExercise(in.nextLine().split(","));
+
+        task.save(course.getTitle());
+
+        System.out.println("Task created successfully.");
     }
 
     boolean studentExists(String studentId) {
         try (Scanner scanner = new Scanner(new FileInputStream("users.txt"))) {
-
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
                 String[] parts = line.split(":");
 
-                // Предположим, что ID пользователя хранится в parts[0],
-                // а статус student/teacher в parts[1]
-                if (parts.length >= 5) {
-                    String id = parts[5];
+                if (parts.length >= 6) {
                     String status = parts[0];
+                    String id = parts[5];
 
-                    if (id.equals(studentId) && status.equalsIgnoreCase("student")) {
+                    if (status.equalsIgnoreCase("STUDENT") && id.equals(studentId)) {
                         return true;
                     }
                 }
             }
-
         } catch (IOException ex) {
             System.out.println("Error reading users file: " + ex.getMessage());
         }
@@ -141,53 +159,46 @@ public class Teacher extends Account {
         return false;
     }
 
-    Course findCourseByTitle(String title) {
-        for (Course course : courses) {
-            if (course.getTitle().equalsIgnoreCase(title)) {
-                return course;
+    void addCourseToStudent(String studentId, String courseTitle) {
+        ArrayList<String> lines = new ArrayList<>();
+
+        try (Scanner scanner = new Scanner(new FileInputStream("users.txt"))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(":");
+
+                if (parts.length >= 6 && parts[5].equals(studentId)) {
+                    if (parts.length == 6) {
+                        line += ":" + courseTitle;
+                    } else {
+                        String studentCourses = parts[6];
+
+                        if (!studentCourses.contains(courseTitle)) {
+                            line += "," + courseTitle;
+                        }
+                    }
+                }
+
+                lines.add(line);
             }
-        }
-        return null;
-    }
-
-    void saveCourse(Course course) {
-        try (FileOutputStream fos = new FileOutputStream("courses.txt", true)) {
-            String students = String.join(",", course.getStudentIds());
-
-            String data = course.getTitle() + ":"
-                    + course.getTeacherId() + ":"
-                    + students + "\n";
-
-            fos.write(data.getBytes());
-
         } catch (IOException ex) {
-            System.out.println("Error writing file: " + ex.getMessage());
+            System.out.println("Read error: " + ex.getMessage());
         }
-    }
 
-    void rewriteCoursesFile() {
-        try (FileOutputStream fos = new FileOutputStream("courses.txt", false)) {
-
-            for (Course course : courses) {
-                String students = String.join(",", course.getStudentIds());
-
-                String data = course.getTitle() + ":"
-                        + course.getTeacherId() + ":"
-                        + students + "\n";
-
-                fos.write(data.getBytes());
+        try (FileOutputStream fos = new FileOutputStream("users.txt", false)) {
+            for (String line : lines) {
+                fos.write((line + "\n").getBytes());
             }
-
         } catch (IOException ex) {
-            System.out.println("Error writing file: " + ex.getMessage());
+            System.out.println("Write error: " + ex.getMessage());
         }
     }
 
     void assignGradeToStudent(Scanner in) {
         System.out.print("Enter course title: ");
-        String title = in.nextLine();
+        String courseTitle = in.nextLine();
 
-        Course course = findCourseByTitle(title);
+        Course course = Course.findByTitle(courses, courseTitle);
 
         if (course == null) {
             System.out.println("Course not found.");
@@ -206,34 +217,6 @@ public class Teacher extends Account {
         String grade = in.nextLine();
 
         System.out.println("Grade " + grade + " assigned to student " + studentId);
-    }
-
-    void createTask(Scanner in) {
-        System.out.print("Enter course title: ");
-        String title = in.nextLine();
-
-        Course course = findCourseByTitle(title);
-
-        if (course == null) {
-            System.out.println("Course not found.");
-            return;
-        }
-
-        Task task = new Task();
-        System.out.print("Enter task title: ");
-        String taskTitle = in.nextLine();
-        task.setTitle(taskTitle);
-
-        System.out.print("Enter the description: ");
-        String input = in.nextLine();
-        String[] description = input.split(",");
-        task.setDescription(description);
-
-        System.out.print("Enter the exercise: ");
-        String[] exercise = input.split(",");
-        task.setExercise(exercise);
-
-        System.out.println("Task created: " + taskTitle);
     }
 
     void showCourses() {

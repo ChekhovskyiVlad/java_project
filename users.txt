@@ -1,2 +1,3 @@
 TEACHER:vlad:chkeh:qtertdsg@gmail.com:123123123:7d181013-5a71-441f-aa32-3864a0698636
-STUDENT:bob:byblik:qqqqqewr@gmail.com:123123123:3acdcd86-b6e2-4c39-aeeb-896836582a62
+STUDENT:bob:byblik:qqqqqewr@gmail.com:123123123:3acdcd86-b6e2-4c39-aeeb-896836582a62:java,c++,python
+TEACHER:martin:zebra:awerqwer@gmail.com:123123123:6c29d5a8-fd50-4dcc-874e-8107b51ea120

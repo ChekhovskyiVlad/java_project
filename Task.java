@@ -1,33 +1,51 @@
 package individual1;
 
+import java.io.*;
+
 public class Task {
 
     private String title;
     private String[] description;
     private String[] exercise;
 
-    protected void setTitle(String title) {
-        this.title = title;
+    public void save(String courseTitle) {
+        try (FileOutputStream fos = new FileOutputStream("tasks.txt", true)) {
+            String descriptionText = String.join(",", description);
+            String exerciseText = String.join(",", exercise);
+
+            String data = courseTitle + ":"
+                    + title + ":"
+                    + descriptionText + ":"
+                    + exerciseText + "\n";
+
+            fos.write(data.getBytes());
+
+        } catch (IOException ex) {
+            System.out.println("Error writing task: " + ex.getMessage());
+        }
     }
 
-    protected String getTitle() {
+    public String getTitle() {
         return title;
     }
 
-    protected void setDescription(String[] description) {
-        this.description = description;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
-    protected String[] getDescription() {
+    public String[] getDescription() {
         return description;
     }
 
-    protected String[] getExercise() {
+    public void setDescription(String[] description) {
+        this.description = description;
+    }
+
+    public String[] getExercise() {
         return exercise;
     }
 
-    protected void setExercise(String[] exercise) {
+    public void setExercise(String[] exercise) {
         this.exercise = exercise;
     }
-
 }
