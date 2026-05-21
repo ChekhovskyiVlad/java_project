@@ -38,9 +38,7 @@ public class Student extends Account {
                     doTasks(in);
                 case 3 ->
                     calculateAverageGrade();
-                case 4 ->
-                    System.out.println("Update data function is not ready yet.");
-                case 5 -> {
+                case 4 -> {
                     System.out.println("Exit...");
                     return;
                 }
@@ -50,7 +48,7 @@ public class Student extends Account {
         }
     }
 
-    private void doTasks(Scanner in) {
+    void doTasks(Scanner in) {
         String studentCourses = findStudentCourses(getIdMember());
 
         if (studentCourses.isEmpty()) {
