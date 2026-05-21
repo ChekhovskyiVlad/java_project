@@ -2,4 +2,4 @@ TEACHER:vlad:chkeh:qtertdsg@gmail.com:123123123:7d181013-5a71-441f-aa32-3864a069
 STUDENT:bob:byblik:qqqqqewr@gmail.com:123123123:3acdcd86-b6e2-4c39-aeeb-896836582a62:java,c++,python
 TEACHER:martin:zebra:awerqwer@gmail.com:123123123:6c29d5a8-fd50-4dcc-874e-8107b51ea120
 TEACHER:bob:bob:v.chek1218@gmail.com:123123132:abbcd5d5-db8b-4747-bf57-253d62185802
-STUDENT:boba:bobovic:v.chek1318@gmail.com:123123123:e4d5277a-2ccf-4116-bcd9-b5e13523f7af:javaScript
+STUDENT:boba:bobovic:v.chek1318@gmail.com:123123123:e4d5277a-2ccf-4116-bcd9-b5e13523f7af:javaScript,prolog

@@ -6,9 +6,6 @@ import java.util.Scanner;
 
 public class Student extends Account {
 
-    private short[] grades;
-    public String[] enrolledCourses;
-
     public Student(Account currentUser) {
         setStatus(currentUser.getStatus());
         setName(currentUser.getName());
@@ -23,7 +20,7 @@ public class Student extends Account {
 
         while (true) {
             System.out.println("""
-                    1. See all grades
+                    1. See all grades and feedback
                     2. Do tasks
                     3. Calculate your average grade
                     4. Update your data
@@ -36,11 +33,11 @@ public class Student extends Account {
 
             switch (choice) {
                 case 1 ->
-                    System.out.println("Grades function is not ready yet.");
+                    seeGradesFeedBack();
                 case 2 ->
                     doTasks(in);
                 case 3 ->
-                    System.out.println("Average grade function is not ready yet.");
+                    calculateAverageGrade();
                 case 4 ->
                     System.out.println("Update data function is not ready yet.");
                 case 5 -> {
@@ -54,9 +51,7 @@ public class Student extends Account {
     }
 
     void doTasks(Scanner in) {
-        String studentId = getIdMember();
-
-        String studentCourses = findStudentCourses(studentId);
+        String studentCourses = findStudentCourses(getIdMember());
 
         if (studentCourses.isEmpty()) {
             System.out.println("You are not enrolled in any courses.");
@@ -64,14 +59,11 @@ public class Student extends Account {
         }
 
         String[] courses = studentCourses.split(",");
-
         boolean hasTasks = false;
 
         try (Scanner fileScanner = new Scanner(new FileInputStream("tasks.txt"))) {
-
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
-
                 String[] parts = line.split(":");
 
                 if (parts.length >= 4) {
@@ -98,7 +90,6 @@ public class Student extends Account {
                     }
                 }
             }
-
         } catch (IOException ex) {
             System.out.println("Error reading tasks.txt: " + ex.getMessage());
             return;
@@ -111,19 +102,14 @@ public class Student extends Account {
 
     String findStudentCourses(String studentId) {
         try (Scanner fileScanner = new Scanner(new FileInputStream("users.txt"))) {
-
             while (fileScanner.hasNextLine()) {
                 String line = fileScanner.nextLine();
-
                 String[] parts = line.split(":");
 
-                // parts[5] = student ID
-                // parts[6] = courses
                 if (parts.length >= 7 && parts[5].equals(studentId)) {
                     return parts[6];
                 }
             }
-
         } catch (IOException ex) {
             System.out.println("Error reading users.txt: " + ex.getMessage());
         }
@@ -133,7 +119,7 @@ public class Student extends Account {
 
     boolean studentHasCourse(String[] courses, String taskCourseTitle) {
         for (String course : courses) {
-            if (course.equalsIgnoreCase(taskCourseTitle)) {
+            if (course.trim().equalsIgnoreCase(taskCourseTitle.trim())) {
                 return true;
             }
         }
@@ -155,5 +141,86 @@ public class Student extends Account {
         submission.save();
 
         System.out.println("Answer submitted successfully.");
+    }
+
+    void seeGradesFeedBack() {
+        String studentId = getIdMember();
+        boolean hasGrades = false;
+
+        try (Scanner scanner = new Scanner(new FileInputStream("submission.txt"))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(":");
+
+                /*
+                submission.txt:
+                0 courseTitle
+                1 taskTitle
+                2 studentId
+                3 answer
+                4 status
+                5 grade
+                6 feedback
+                 */
+                if (parts.length >= 7 && parts[2].equals(studentId)) {
+                    hasGrades = true;
+
+                    System.out.println();
+                    System.out.println("Course: " + parts[0]);
+                    System.out.println("Task: " + parts[1]);
+                    System.out.println("Answer: " + parts[3]);
+                    System.out.println("Status: " + parts[4]);
+                    System.out.println("Grade: " + parts[5]);
+                    System.out.println("Feedback: " + parts[6]);
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("Error reading submission.txt: " + ex.getMessage());
+            return;
+        }
+
+        if (!hasGrades) {
+            System.out.println("You don't have checked submissions yet.");
+        }
+    }
+
+    void calculateAverageGrade() {
+        String studentId = getIdMember();
+
+        int sum = 0;
+        int count = 0;
+
+        try (Scanner scanner = new Scanner(new FileInputStream("submission.txt"))) {
+            while (scanner.hasNextLine()) {
+                String line = scanner.nextLine();
+                String[] parts = line.split(":");
+
+                if (parts.length >= 7 && parts[2].equals(studentId)) {
+                    String gradeText = parts[5];
+
+                    try {
+                        int grade = Integer.parseInt(gradeText);
+
+                        if (grade > 0) {
+                            sum += grade;
+                            count++;
+                        }
+
+                    } catch (NumberFormatException ex) {
+                        System.out.println("Invalid grade format: " + gradeText);
+                    }
+                }
+            }
+        } catch (IOException ex) {
+            System.out.println("Error reading submission.txt: " + ex.getMessage());
+            return;
+        }
+
+        if (count == 0) {
+            System.out.println("You don't have grades yet.");
+        } else {
+            double average = (double) sum / count;
+            System.out.println("Average grade: " + average);
+        }
     }
 }
