@@ -61,7 +61,7 @@ public class Teacher extends Account {
         }
     }
 
-    void createCourse(Scanner in) {
+    private void createCourse(Scanner in) {
         Course course = new Course();
 
         System.out.print("Enter course title: ");
@@ -76,7 +76,7 @@ public class Teacher extends Account {
         System.out.println("Course created successfully!");
     }
 
-    void enrollStudentToExistingCourse(Scanner in) {
+    private void enrollStudentToExistingCourse(Scanner in) {
         if (courses.isEmpty()) {
             System.out.println("You have no courses.");
             return;
@@ -113,7 +113,7 @@ public class Teacher extends Account {
         System.out.println("Student enrolled successfully.");
     }
 
-    void createTask(Scanner in) {
+    private void createTask(Scanner in) {
         System.out.print("Enter course title: ");
         String courseTitle = in.nextLine();
 
@@ -140,7 +140,7 @@ public class Teacher extends Account {
         System.out.println("Task created successfully.");
     }
 
-    boolean studentExists(String studentId) {
+    private boolean studentExists(String studentId) {
         try (Scanner scanner = new Scanner(new FileInputStream("users.txt"))) {
             while (scanner.hasNextLine()) {
                 String line = scanner.nextLine();
@@ -162,7 +162,7 @@ public class Teacher extends Account {
         return false;
     }
 
-    void addCourseToStudent(String studentId, String courseTitle) {
+    private void addCourseToStudent(String studentId, String courseTitle) {
         ArrayList<String> lines = new ArrayList<>();
 
         try (Scanner scanner = new Scanner(new FileInputStream("users.txt"))) {
@@ -197,7 +197,7 @@ public class Teacher extends Account {
         }
     }
 
-    void assignGradeToStudent(Scanner in) {
+    private void assignGradeToStudent(Scanner in) {
         System.out.print("Enter course title: ");
         String courseTitle = in.nextLine();
 
@@ -222,7 +222,7 @@ public class Teacher extends Account {
         System.out.println("Grade " + grade + " assigned to student " + studentId);
     }
 
-    void checkSubmissions(Scanner in) {
+    private void checkSubmissions(Scanner in) {
 
         ArrayList<String> updatedLines = new ArrayList<>();
 
@@ -317,7 +317,7 @@ public class Teacher extends Account {
         }
     }
 
-    void showCourses() {
+    private void showCourses() {
         if (courses.isEmpty()) {
             System.out.println("You have no courses.");
             return;

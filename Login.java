@@ -46,8 +46,6 @@ public class Login extends Account {
                     String emailFound = parts[3];
                     String passwordFound = parts[4];
                     String idFound = parts[5];
-                    //  String grades[] = parts[5].split(",");
-                    //String enrolledCourses[] = parts[6].split(",");
 
                     if (emailFound.equals(email) && passwordFound.equals(password)) {
                         setStatus(statusFound);

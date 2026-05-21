@@ -50,7 +50,7 @@ public class Student extends Account {
         }
     }
 
-    void doTasks(Scanner in) {
+    private void doTasks(Scanner in) {
         String studentCourses = findStudentCourses(getIdMember());
 
         if (studentCourses.isEmpty()) {
